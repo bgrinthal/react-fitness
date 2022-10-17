@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const orderSchema = new Schema({
+const workoutSchema = new Schema({
   purchaseDate: {
     type: Date,
     default: Date.now
@@ -15,6 +15,6 @@ const orderSchema = new Schema({
   ]
 });
 
-const Order = mongoose.model('Order', orderSchema);
+const Workout = mongoose.model('Workout', workoutSchema);
 
-module.exports = Order;
+module.exports = Workout;

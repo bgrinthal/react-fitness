@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Exercise, Category, Order } = require('../models');
+const { User, Exercise, Category, Workout } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
@@ -29,36 +29,36 @@ const resolvers = {
     user: async (parent, args, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
-          path: 'orders.exercises',
+          path: 'workouts.exercises',
           populate: 'category'
         });
 
-        user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
+        user.workouts.sort((a, b) => b.purchaseDate - a.purchaseDate);
 
         return user;
       }
 
       throw new AuthenticationError('Not logged in');
     },
-    order: async (parent, { _id }, context) => {
+    workout: async (parent, { _id }, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
-          path: 'orders.exercises',
+          path: 'workouts.exercises',
           populate: 'category'
         });
-        const order = new Order({ exercises: args.exercises });
+        const workout = new Workout({ exercises: args.exercises });
 
-        return user.orders.id(_id);
+        return user.workouts.id(_id);
       }
 
       throw new AuthenticationError('Not logged in');
     },
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
-      const order = new Order({ exercises: args.exercises });
+      const workout = new Workout({ exercises: args.exercises });
       const line_items = [];
 
-      const { exercises } = await order.populate('exercises');
+      const { exercises } = await workout.populate('exercises');
 
       for (let i = 0; i < exercises.length; i++) {
         const exercise = await stripe.exercises.create({
@@ -86,14 +86,14 @@ const resolvers = {
 
       return { token, user };
     },
-    addOrder: async (parent, { exercises }, context) => {
+    addWorkout: async (parent, { exercises }, context) => {
       console.log(context);
       if (context.user) {
-        const order = new Order({ exercises });
+        const workout = new Workout({ exercises });
 
-        await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
+        await User.findByIdAndUpdate(context.user._id, { $push: { workouts: workout } });
 
-        return order;
+        return workout;
       }
 
       throw new AuthenticationError('Not logged in');

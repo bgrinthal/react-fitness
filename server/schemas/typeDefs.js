@@ -20,7 +20,7 @@ const typeDefs = gql`
     category: Category
   }
 
-  type Order {
+  type Workout {
     _id: ID
     purchaseDate: String
     exercises: [Exercise]
@@ -31,7 +31,7 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     email: String
-    orders: [Order]
+    workouts: [Workout]
   }
 
   type Checkout {
@@ -48,13 +48,13 @@ const typeDefs = gql`
     exercises(category: ID, name: String): [Exercise]
     exercise(_id: ID!): Exercise
     user: User
-    order(_id: ID!): Order
+    workout(_id: ID!): Workout
     checkout(exercises: [ID]!): Checkout
   }
 
   type Mutation {
     addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-    addOrder(exercises: [ID]!): Order
+    addWorkout(exercises: [ID]!): Workout
     updateUser(firstName: String, lastName: String, email: String, password: String): User
     updateExercise(_id: ID!, quantity: Int! rep: Int! weight: Int!): Exercise
     login(email: String!, password: String!): Auth

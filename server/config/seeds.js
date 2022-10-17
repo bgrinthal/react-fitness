@@ -182,7 +182,7 @@ db.once('open', async () => {
     lastName: 'Washington',
     email: 'pamela@testmail.com',
     password: 'password12345',
-    orders: [
+    workouts: [
       {
         exercises: [exercises[0]._id, exercises[0]._id, exercises[1]._id]
       }
