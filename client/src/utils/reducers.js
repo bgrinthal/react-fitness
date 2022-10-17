@@ -33,7 +33,6 @@ export const reducer = (state, action) => {
         ...state,
         cart: [...state.cart, ...action.exercises],
       };
-    // Returns a copy of state, sets the cartOpen to true and maps through the items in the cart.
     // If the item's `id` matches the `id` that was provided in the action.payload, we update the set quantity.
     case UPDATE_SETS:
       return {
@@ -80,7 +79,7 @@ export const reducer = (state, action) => {
       });
 
       // Then we return a copy of state and check to see if the cart is empty.
-      // If not, we set the cartOpen status to  `true`. Then we return an updated cart array set to the value of `newState`.
+      // Then we return an updated cart array set to the value of `newState`.
       return {
         ...state,
         cart: newState,

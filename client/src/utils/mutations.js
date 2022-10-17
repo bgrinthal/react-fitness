@@ -11,7 +11,7 @@ export const LOGIN = gql`
   }
 `;
 
-export const ADD_ORDER = gql`
+export const ADD_WORKOUT = gql`
   mutation addWorkout($exercises: [ID]!) {
     addWorkout(exercises: $exercises) {
       purchaseDate

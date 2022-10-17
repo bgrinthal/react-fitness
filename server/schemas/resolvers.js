@@ -1,7 +1,6 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User, Exercise, Category, Workout } = require('../models');
 const { signToken } = require('../utils/auth');
-const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 // Resolvers populate graphQL data for every field in your schema
 const resolvers = {

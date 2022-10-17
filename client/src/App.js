@@ -38,7 +38,6 @@ const client = new ApolloClient({
 });
 
 function App() {
-  const contextValue = useContext(NotificationContext);
   return (
     <ApolloProvider client={client}>
         <Router>
