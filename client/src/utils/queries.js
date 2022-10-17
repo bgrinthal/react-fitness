@@ -17,14 +17,6 @@ export const QUERY_EXERCISE = gql`
   }
 `;
 
-export const QUERY_CHECKOUT = gql`
-  query getCheckout($exercises: [ID]!) {
-    checkout(exercises: $exercises) {
-      session
-    }
-  }
-`;
-
 export const QUERY_ALL_EXERCISE = gql`
   {
     exercises {

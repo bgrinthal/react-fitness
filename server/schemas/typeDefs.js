@@ -1,5 +1,9 @@
 const { gql } = require('apollo-server-express');
 
+
+// typedegs define the objects in the graphQL schema.
+// Query fetch the objects.  Clients can executed them against the graph.
+// Mutation modify data
 const typeDefs = gql`
   type Category {
     _id: ID
@@ -16,7 +20,6 @@ const typeDefs = gql`
     quantity: Int
     reps: Int
     weight: Int
-
     category: Category
   }
 
@@ -34,22 +37,18 @@ const typeDefs = gql`
     workouts: [Workout]
   }
 
-  type Checkout {
-    session: ID
-  }
-
   type Auth {
     token: ID
     user: User
   }
-
+  
   type Query {
     categories: [Category]
     exercises(category: ID, name: String): [Exercise]
     exercise(_id: ID!): Exercise
     user: User
     workout(_id: ID!): Workout
-    checkout(exercises: [ID]!): Checkout
+
   }
 
   type Mutation {

@@ -3,6 +3,7 @@ const { User, Exercise, Category, Workout } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
+// Resolvers populate graphQL data for every field in your schema
 const resolvers = {
   Query: {
     categories: async () => {
@@ -52,31 +53,6 @@ const resolvers = {
       }
 
       throw new AuthenticationError('Not logged in');
-    },
-    checkout: async (parent, args, context) => {
-      const url = new URL(context.headers.referer).origin;
-      const workout = new Workout({ exercises: args.exercises });
-      const line_items = [];
-
-      const { exercises } = await workout.populate('exercises');
-
-      for (let i = 0; i < exercises.length; i++) {
-        const exercise = await stripe.exercises.create({
-          name: exercises[i].name,
-          description: exercises[i].description,
-          images: [`${url}/images/${exercises[i].image}`]
-        });
-      }
-
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items,
-        mode: 'payment',
-        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${url}/`
-      });
-
-      return { session: session.id };
     }
   },
   Mutation: {

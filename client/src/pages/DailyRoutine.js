@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { useLazyQuery } from '@apollo/client';
-import { QUERY_CHECKOUT } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import RoutineItem from '../components/RoutineItem';
 import Auth from '../utils/auth';
@@ -16,15 +15,6 @@ const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const DailyRoutine = () => {
   const [state, dispatch] = useStoreContext();
-  const [, { data }] = useLazyQuery(QUERY_CHECKOUT);
-
-  useEffect(() => {
-    if (data) {
-      stripePromise.then((res) => {
-        res.redirectToCheckout({ sessionId: data.checkout.session });
-      });
-    }
-  }, [data]);
 
   useEffect(() => {
     async function getRoutine() {
